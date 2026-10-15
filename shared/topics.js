@@ -2,7 +2,7 @@
 // status: "planned" | "building" | "live"
 window.TOPICS = [
   // Part I — Interaction of matter, space & time
-  { n: 1,  part: 1, slug: "concepts-of-matter",          title: "Concepts of Matter",                          status: "planned" },
+  { n: 1,  part: 1, slug: "concepts-of-matter",          title: "Concepts of Matter",                          status: "live" },
   { n: 2,  part: 1, slug: "fundamental-derived-quantities", title: "Fundamental & Derived Quantities",         status: "planned" },
   { n: 3,  part: 1, slug: "position-distance-displacement", title: "Position, Distance & Displacement",        status: "planned" },
   { n: 4,  part: 1, slug: "mass-and-weight",             title: "Mass and Weight",                             status: "planned" },

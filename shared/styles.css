@@ -9,8 +9,10 @@
   --line: #e6e4dd;
   --accent: #0f8a5f;        /* green, primary actions */
   --accent-ink: #ffffff;
+  --accent-soft: #e3f3ec;
   --warn: #d9822b;
   --danger: #c4413a;
+  --danger-soft: #f8e4e2;
 
   --radius: 12px;
   --gap: 16px;
@@ -29,6 +31,9 @@
     --line: #2a2e36;
     --accent: #2fbf86;
     --accent-ink: #0b0d10;
+    --accent-soft: #173a2d;
+    --danger: #e0645c;
+    --danger-soft: #3d2120;
   }
 }
 :root[data-theme="dark"] {
@@ -39,6 +44,9 @@
   --line: #2a2e36;
   --accent: #2fbf86;
   --accent-ink: #0b0d10;
+  --accent-soft: #173a2d;
+  --danger: #e0645c;
+  --danger-soft: #3d2120;
 }
 
 * { box-sizing: border-box; }
