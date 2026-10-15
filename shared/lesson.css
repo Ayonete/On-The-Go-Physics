@@ -1,7 +1,7 @@
 /* Lesson path: a topic is a vertical trail of "stops", revealed one step at a time. */
 
 .path-head {
-  position: sticky; top: 0; z-index: 10;
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
   background: var(--bg);
   padding: 12px 0 10px;
 }

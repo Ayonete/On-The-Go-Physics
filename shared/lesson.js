@@ -228,7 +228,8 @@
     },
   };
 
-  async function run(body, blocks, review, ctx) {
+  // scroll: whether the first interactive block may scroll into view (not on page load).
+  async function run(body, blocks, review, ctx, scroll = true) {
     for (const raw of blocks) {
       const b = typeof raw === "string" ? { p: raw } : raw;
       const type = Object.keys(R).find(k => k in b);
@@ -236,7 +237,8 @@
       body.append(node);
       const done = R[type](node, b, review, ctx);
       if (!review && done) {
-        node.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        if (scroll) node.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        scroll = true;
         await done;
         await wait(300);
       }
@@ -298,7 +300,7 @@
       body.innerHTML = "";
       li.classList.add("open");
       if (scroll) li.scrollIntoView({ behavior: "smooth", block: "start" });
-      await run(body, L.stops[i].blocks, false, ctx);
+      await run(body, L.stops[i].blocks, false, ctx, scroll);
       const row = h("div", "continue-row");
       const go = btn("btn continue", i === n - 1 ? "Finish topic" : "Continue →");
       row.append(go);
@@ -321,19 +323,26 @@
         <p class="muted">${state.best != null ? `Best quiz score: ${state.best}/${L.quizSize || ""}` : ""}</p>
         <p>${L.next || ""}</p>
         <div class="actions"><a class="btn" href="../../">Back to topics</a></div>`);
-      const restart = btn("btn ghost", "Start over");
-      restart.onclick = () => {
-        if (confirm("Start this topic again from the beginning?")) { store.del(key); location.reload(); }
-      };
-      end.querySelector(".actions").append(restart);
+      end.querySelector(".actions").append(restartButton("btn ghost"));
       root.append(end);
       if (scroll) end.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
+    // Two taps to restart: the first arms the button, the second clears progress.
+    function restartButton(cls) {
+      const b = btn(cls, "Start over");
+      let armed = 0;
+      b.onclick = () => {
+        if (Date.now() - armed < 4000) { store.del(key); location.reload(); return; }
+        armed = Date.now();
+        b.textContent = "Tap again to restart";
+        setTimeout(() => (b.textContent = "Start over"), 4000);
+      };
+      return b;
+    }
+
     if (state.at > 0 && state.at < n) {
-      const restart = btn("linkish", "Start over");
-      restart.onclick = () => { if (confirm("Start this topic again from the beginning?")) { store.del(key); location.reload(); } };
-      intro.append(restart);
+      intro.append(restartButton("linkish"));
     }
     open(state.at, state.at > 0);
   }
